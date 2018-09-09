@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN cnpm install
+RUN npm install
 # If you are building your code for production
 # RUN npm install --only=production
 
@@ -16,4 +16,4 @@ RUN cnpm install
 COPY . .
 
 EXPOSE 8080
-CMD [ "cnpm", "start" ]
+CMD [ "npm", "start" ]
