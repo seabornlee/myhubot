@@ -1,0 +1,16 @@
+pipeline {
+  agent any
+    stages {
+      stage("Build") {
+        steps {
+          sh "docker build -t potato-plan/myhubot ."
+        }
+      }
+
+      stage("Start") {
+        steps {
+          sh "docker run -p 9001:8080 -d potato-plan/myhubot"
+        }
+      }
+    }
+}
