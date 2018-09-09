@@ -6,10 +6,16 @@ pipeline {
           sh "docker build -t potato-plan/myhubot ."
         }
       }
+      
+      stage("Stop") {
+        steps {
+            sh "(docker stop myhubot && docker rm myhubot) || true"
+        }
+      }
 
       stage("Start") {
         steps {
-          sh "docker run -p 9001:8080 -d potato-plan/myhubot"
+          sh "docker run -p 9001:8080 -d --name myhubot potato-plan/myhubot"
         }
       }
     }
