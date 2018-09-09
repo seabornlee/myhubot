@@ -1,22 +1,37 @@
 pipeline {
   agent any
-    stages {
-      stage("Build") {
-        steps {
-          sh "docker build -t potato-plan/myhubot ."
-        }
-      }
-      
-      stage("Stop") {
-        steps {
-            sh "(docker stop myhubot && docker rm myhubot) || true"
-        }
-      }
-
-      stage("Start") {
-        steps {
-          sh "docker run -p 9001:8080 -d --name myhubot potato-plan/myhubot"
-        }
+  stages {
+    stage("Build") {
+      steps {
+        sh "docker build -t potato-plan/myhubot ."
       }
     }
+
+    stage("Stop") {
+      steps {
+          sh "(docker stop myhubot && docker rm myhubot) || true"
+      }
+    }
+
+    stage("Start") {
+      steps {
+        sh "docker run -p 9001:8080 -d --name myhubot potato-plan/myhubot"
+      }
+    }
+  }
+
+  post {
+    success {
+      bearychatSend message: "Finished [${env.JOB_NAME} #${env.BUILD_NUMBER}](${env.BUILD_URL})",
+                    color: '#0000FF',
+                    attachmentText: "Yeah... Hubot upgrade succeed: ${env.JOB_NAME} ${env.BUILD_NUMBER}",
+                    channel: "Timeline"
+    }
+    failure {
+      bearychatSend message: "Finished [${env.JOB_NAME} #${env.BUILD_NUMBER}](${env.BUILD_URL})",
+                    color: '#FF0000',
+                    attachmentText: "Wooops... Hubot upgrade failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}",
+                    channel: "Timeline"
+    }
+  }
 }
