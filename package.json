@@ -6,7 +6,7 @@
   "description": "A simple helpful robot for your Company",
   "scripts": {
     "start": "export $(cat .env | xargs) && ./bin/hubot -a bearychat",
-    "dev": "export $(cat .env.dev | xargs) && ./bin/hubot -a bearychat"
+    "dev": "export $(awk 'BEGIN { FS=\"=\"; } { if (NR==FNR) { pkeynline[$1]=$0; } else if (pkeynline[$1]) { print pkeynline[$1]; } else { print; } }' .env.dev .env | xargs) && ./bin/hubot -a bearychat"
   },
   "dependencies": {
     "hubot": "^3.1.1",
