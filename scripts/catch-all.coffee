@@ -1,12 +1,20 @@
 module.exports = (robot) ->
   robot.catchAll (msg) ->
+    botName = 'myhubot'
+    if (!msg.message.text.startsWith(botName))
+      return
+
+    text = msg.message.text.substring(botName.length + 1)
+
     URL = 'http://openapi.tuling123.com/openapi/api/v2'
     API_KEY = process.env.TURING_API_KEY
     USER_ID = process.env.TURING_USER_ID
     params = {
       reqType: '0',
       perception: {
-        inputText: msg.message
+        inputText: {
+          text: text
+        }
       }
       userInfo: {
         apiKey: API_KEY,
