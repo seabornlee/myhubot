@@ -1,10 +1,12 @@
 module.exports = (robot) ->
-  robot.respond(/(.*)的id是(.*)/i,  (res) ->
+  robot.respond(/(.*)的id是/i,  (res) ->
     LOGIN_URL = process.env.BASE_URL + process.env.LOGIN_URL
     USERNAME = process.env.USERNAME
     PASSWORD = process.env.PASSWORD
 
     bin_no = res.match[1]
+    console.log(bin_no)
+
     params = {
       type: 'account',
       mobile: USERNAME,
